@@ -1,30 +1,37 @@
 import './App.css';
-import LoginButton from "./components/login";
-import LogoutButton from './components/logout';
-import {useEffect} from 'react';
-import {gapi} from 'gapi-script';
-
-const googleClientId = '321113386712-3u0vo7b7faoln0jr9nfvo1hoflkef7mp.apps.googleusercontent.com';
+import { GoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 
 function App() {
 
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: googleClientId,
-        scope: ""
-      })
-    };
- 
-    gapi.load("client:auth2", start);
-  });
+    const login = async (credential) => {
+        const decodedToken = jwtDecode(credential);
+        console.log(decodedToken);
+        console.log(decodedToken.email);
+        console.log(typeof(decodedToken.email));
 
-  return (
-    <div className="App">
-      <LoginButton />
-      <LogoutButton />
-    </div>
-  );
+        axios.post('http://localhost:3001/user', {
+            email: decodedToken.email
+          })
+          .then(function (response) {
+            console.log('Data sent successfully: ', response);
+          })
+          .catch(function (error) {
+            console.log("Connection error: "+error);
+          });
+    }
+
+    return (
+      <GoogleLogin
+        onSuccess = {response => {
+            login(response.credential);
+        }}
+        onError={() => {
+            console.log('Login Failed');
+        }}
+      />
+    );
 }
 
 export default App;
