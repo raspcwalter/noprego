@@ -1,7 +1,10 @@
 import dotenv from 'dotenv';
 import express from 'express'
-import morgan from 'morgan';
 import cors from 'cors';
+
+import fs from 'fs';
+import https from 'https';
+
 import mongoose from 'mongoose';
 import User from './model/User.js';
 import Project from './model/Project.js';
@@ -12,12 +15,12 @@ const PORT = isNaN(parseInt('process.env.PORT')) ? 3001 : parseInt('process.env.
 let lumixApiKey;
 let user;
 
-app.use(morgan('tiny'));
 app.use(cors());
 app.use(express.json());
 
+
 //web2
-app.post("/user", async (request, response) => {
+app.post("/login", async (request, response) => {
 
     lumixApiKey = await getApiKey();
 
@@ -28,11 +31,10 @@ app.post("/user", async (request, response) => {
         user.wallet = await createWallet(lumixApiKey);
         user = await user.save();
     }
-
-    response.status(201).send(user.wallet.address);
+    response.status(201).send({address: user.wallet.address, userdata: user.userdata});
 });
 
-app.patch("/user", async (request, response) => {
+app.post("/user", async (request, response) => {
     try {
         const user = getUserByEmail(request.body.email);
         //update user (form values + wallet)
@@ -53,6 +55,7 @@ app.post("/artwork", async (request, response) => {
         response.status(500).json({message: error.message});
     }
 });
+
 
 const getApiKey = async () => {
     const project = await Project.findOne();
@@ -83,10 +86,16 @@ const createWallet = async (lumxApiKey) => {
 //web3
 
 
+const options = {
+    key: fs.readFileSync('./localhost-key.pem', 'utf8'),
+    cert: fs.readFileSync('./localhost.pem', 'utf8')
+};
+const httpsServer = https.createServer(options, app);
+
 mongoose.connect("mongodb+srv://lucasoliveirabs95:WAbMcqYc1MQmkVQq@cluster0.an6suf4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 .then(() => {
     console.log("MongoDB connection success");
-    app.listen(PORT, () => {
+    httpsServer.listen(PORT, () => {
         console.log("Server listening at port "+PORT);
     });
 }).catch(() => {
