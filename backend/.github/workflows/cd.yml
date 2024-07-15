@@ -37,3 +37,18 @@ jobs:
         with:
           push: true
           tags: lucasoliveirabs/noprego:${{ github.ref_name }}
+
+      - name: Login to Oracle Cloud
+        run: |
+          echo "${{ secrets.OCI_CONFIG }}" > ~/.oci/config
+          oci setup config --file ~/.oci/config
+
+      - name: Deploy Docker Image to Oracle Cloud Instance
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.oci/noprego_api_key.pem opc@150.136.175.52 << 'EOF'
+            sudo yum install -y docker
+            sudo service docker start
+            sudo docker login -u $DOCKER_USERNAME -p $DOCKERHUB_TOKEN
+            sudo docker pull lucasoliveirabs/noprego:${{ github.ref_name }}
+            sudo docker run -d -p 3000:3000 lucasoliveirabs/noprego:${{ github.ref_name }}
+          EOF
