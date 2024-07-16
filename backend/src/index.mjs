@@ -15,6 +15,10 @@ dotenv.config();
 const PORT = isNaN(parseInt(process.env.PORT)) ? 3001 : parseInt(process.env.PORT); 
 
 //web2
+app.get('/', (req, res) => {
+    res.send('Running API');
+});
+
 app.post("/login", async (request, response) => {
     try {
         const fetchedUser = await User.findOne(request.body);
