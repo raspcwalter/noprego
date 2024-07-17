@@ -3,6 +3,8 @@ pragma solidity ^0.8.24;
 
 // NFTfi 
 import {ContractKeys} from "./utils/ContractKeys.sol"; 
+import {INftfiHub} from "./interfaces/INftfiHub.sol";
+
 // Open Zeppelin
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
@@ -15,7 +17,7 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
  * 
  */
 
-contract NoPrego is Ownable, Pausable, ReentrancyGuard {
+contract NoPrego is Ownable, Pausable, ReentrancyGuard, INftfiHub {
 
     // STORAGE
     mapping(bytes32 => address) private contracts;

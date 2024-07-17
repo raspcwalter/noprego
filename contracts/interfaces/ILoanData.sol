@@ -1,12 +1,12 @@
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
 /**
- * @title  LoanData
+ * @title  ILoanData
  * @author NFTfi (adaptaded)
  * @notice An interface containg the main Loan struct shared by Direct Loans types.
  */
-interface LoanData {
+interface ILoanData {
     /* ********** */
     /* DATA TYPES */
     /* ********** */
