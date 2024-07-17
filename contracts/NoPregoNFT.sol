@@ -3,13 +3,9 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-// import {Counters} from "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
-
 
 contract NoPregoNFT is ERC1155, Ownable {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+    uint256 private _nextTokenId = 1;
 
     // Controle de acesso
     mapping(address => bool) private minters;
@@ -20,7 +16,6 @@ contract NoPregoNFT is ERC1155, Ownable {
         string description;
         string image;
         string properties;
-        uint256 price;
     }
 
     mapping(uint256 => TokenMetadata) private tokenMetadata;
@@ -54,15 +49,15 @@ contract NoPregoNFT is ERC1155, Ownable {
         string memory name,
         string memory description,
         string memory image,
-        string memory properties,
-        uint256 price
+        string memory properties
     ) external onlyMinter returns (uint256) {
-        _tokenIds.increment();
-        uint256 newTokenId = _tokenIds.current();
+        
+        uint256 newTokenId = _nextTokenId;
+       _nextTokenId++;
 
         _mint(to, newTokenId, 1, "");
 
-        tokenMetadata[newTokenId] = TokenMetadata(name, description, image, properties, price);
+        tokenMetadata[newTokenId] = TokenMetadata(name, description, image, properties);
         
         emit Minted(to, newTokenId);
         return newTokenId;
@@ -109,9 +104,8 @@ contract NoPregoNFT is ERC1155, Ownable {
             metadata.image,
             '", "properties":"',
             metadata.properties,
-            '", "price":"',
-            Strings.toString(metadata.price),
-            '"}'
+           '"}'
         ));
     }    
 }
+
