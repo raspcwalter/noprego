@@ -155,4 +155,6 @@ mongoose.connect(process.env.MONGODB_URI)
     });
 }).catch(() => {
     console.log("MongoDB connection failed")
+}).catch(() => {
+    console.log("MongoDB connection failed");
 })
