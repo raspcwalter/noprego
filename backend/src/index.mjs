@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 dotenv.config();
-const PORT = isNaN(parseInt(process.env.PORT)) ? 3001 : parseInt(process.env.PORT); 
+const PORT = isNaN(parseInt(process.env.PORT)) ? 3000 : parseInt(process.env.PORT); 
 
 //web2
 app.get('/', (req, res) => {
