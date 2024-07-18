@@ -7,7 +7,7 @@ import {ILoanData} from "./interfaces/ILoanData.sol";
 import {IDirectLoanCoordinator} from "./interfaces/IDirectLoanCoordinator.sol";
 import {INftfiHub} from "./interfaces/INftfiHub.sol";
 //import "../../../interfaces/IPermittedPartners.sol";
-// import "../../../interfaces/IPermittedERC20s.sol";
+//import {IPermittedERC20s} from "./interfaces/IPermittedERC20s.sol";
 
 import "./utils/ContractKeys.sol";
 
@@ -34,7 +34,8 @@ library LoanChecksAndCalculations {
         require(!IDirectLoanBase(address(this)).loanRepaidOrLiquidated(_loanId), "Loan already repaid/liquidated");
 
         // Fetch loan details from storage, but store them in memory for the sake of saving gas.
-        (, , , , uint32 loanDuration, , , , uint64 loanStartTime, , ) = IDirectLoanBase(address(this)).loanIdToLoan(
+        //  uint256,uint256,uint256,address,uint32,uint256,uint16,uint16,address,uint64,address,address
+        (, , , , uint32 loanDuration, , , , , uint64 loanStartTime, , ) = IDirectLoanBase(address(this)).loanIdToLoan(
             _loanId
         );
 
@@ -153,13 +154,14 @@ library LoanChecksAndCalculations {
      * @return The quantity of ERC20 currency (measured in smalled units of that ERC20 currency) that should be sent to
      * the `revenueSharePartner`.
      */
+    /*
     function computeRevenueShare(uint256 _adminFee, uint256 _revenueShareInBasisPoints)
         external
         pure
         returns (uint256)
     {
         return (_adminFee * _revenueShareInBasisPoints) / HUNDRED_PERCENT;
-    }
+    }*/
 
     /**
      * @notice A convenience function computing the adminFee taken from a specified quantity of interest.
@@ -192,6 +194,7 @@ library LoanChecksAndCalculations {
      * @return The quantity of ERC20 currency (measured in smalled units of that ERC20 currency) that should be sent to
      * the referrer.
      */
+    /*
     function computeReferralFee(
         uint256 _loanPrincipalAmount,
         uint256 _referralFeeInBasisPoints,
@@ -201,5 +204,5 @@ library LoanChecksAndCalculations {
             return 0;
         }
         return (_loanPrincipalAmount * _referralFeeInBasisPoints) / HUNDRED_PERCENT;
-    }
+    }*/
 }

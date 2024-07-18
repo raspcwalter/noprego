@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
+import {Vault} from "../Vault.sol";
+
 /**
  * @title  ILoanData
  * @author NFTfi (adaptaded)
@@ -45,7 +47,7 @@ interface ILoanData {
         uint256 nftCollateralId;
         address loanERC20Denomination;
         uint32 loanDuration; // necessário ? @verify 
-        uint256 loanDueDate; // adaptação 
+        uint256 loanDueDate; // adaptação @todo 
         uint16 loanInterestRateForDurationInBasisPoints;
         uint16 loanAdminFeeInBasisPoints;
         address nftCollateralWrapper;

@@ -21,6 +21,7 @@ interface IDirectLoanBase {
             uint256,
             address,
             uint32,
+            uint256,
             uint16,
             uint16,
             address,
@@ -28,7 +29,7 @@ interface IDirectLoanBase {
             address,
             address
         );
-
+   
     function loanRepaidOrLiquidated(uint32) external view returns (bool);
 
     function getWhetherNonceHasBeenUsedForUser(address _user, uint256 _nonce) external view returns (bool);
