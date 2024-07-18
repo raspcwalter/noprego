@@ -7,7 +7,7 @@ import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 // BokkyPooBah
-import {BokkyPooBahsDateTimeLibrary} from "./BokkyPooBahsDateTimeLibrary/BokkyPooBahsDateTimeLibrary.sol";
+import {BokkyPooBahsDateTimeLibrary} from "./lib/BokkyPooBahsDateTimeLibrary.sol";
 
 contract Vault is Ownable, Pausable, ReentrancyGuard {
 
@@ -85,7 +85,7 @@ constructor(
         prazoMaturidade.segundo = 0;
     }
 
-    function setDataHoraVencimento(uint _ano, uint _mes, uint _dia, uint _hora, uint _minuto, uint _segundo) {
+    function setDataHoraVencimento(uint _ano, uint _mes, uint _dia, uint _hora, uint _minuto, uint _segundo) public {
         require(BokkyPooBahsDateTimeLibrary.isValidDateTime(_ano, _mes, _dia, _hora, _minuto, _segundo), "data/hora invalidas!");
         prazoMaturidade.ano = _ano;
         prazoMaturidade.mes = _mes;
@@ -99,11 +99,11 @@ constructor(
         return prazoMaturidade; 
     }
 
-    function isVencido() public view returns (boolean) {
-        uint agora = now;
+    function isVencido() public view returns (bool b) {
+        uint agora = block.timestamp;
         uint vencimentoTimestamp = BokkyPooBahsDateTimeLibrary.timestampFromDateTime(prazoMaturidade.ano, 
         prazoMaturidade.mes, prazoMaturidade.dia, prazoMaturidade.hora, prazoMaturidade.minuto, prazoMaturidade.segundo);
-        return (agora < vencimentoTimeStamp ? false : true);
+        return (agora < vencimentoTimestamp ? false : true);
     }
 
 }
