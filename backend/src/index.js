@@ -147,7 +147,7 @@ mongoose.connect(process.env.MONGODB_URI)
 .then(() => {
     console.log("MongoDB connection success");
     app.listen(PORT, function(err){
-        if (err) console.log("Error in server setup");
+        if (err) console.log("Error - server not listening");
         console.log("Server listening on Port", PORT);
     })
 }).catch(() => {
