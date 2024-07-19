@@ -6,6 +6,7 @@ import https from 'https';
 import mongoose from 'mongoose';
 import User from './model/User.js';
 import Project from './model/Project.js';
+import Contract from './model/Contract.js';
 
 const app = express();
 app.use(cors());
@@ -87,6 +88,10 @@ const createWallet = async (lumxApiKey) => {
         console.error('Fetch error:', err);
         throw err;
     }    
+}
+
+const getContractAddress = async (contractName) => {
+    const project = await Contract.findOne();
 }
 
 const formatTypeformData = (request) => {

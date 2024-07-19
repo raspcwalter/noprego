@@ -1,0 +1,20 @@
+{
+	"siteId": "b4055d6a-b67b-4a57-9e94-a53c41535d10",
+	"geolocation": {
+		"data": {
+			"city": "João Pessoa",
+			"country": {
+				"code": "BR",
+				"name": "Brazil"
+			},
+			"subdivision": {
+				"code": "PB",
+				"name": "Paraíba"
+			},
+			"timezone": "America/Fortaleza",
+			"latitude": -7.1712,
+			"longitude": -34.8617
+		},
+		"timestamp": 1721243641999
+	}
+}
