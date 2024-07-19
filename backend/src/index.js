@@ -1,8 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express'
 import cors from 'cors';
-import fs from 'fs';
-import https from 'https';
 import mongoose from 'mongoose';
 import User from './model/User.js';
 import Project from './model/Project.js';
@@ -14,6 +12,13 @@ app.use(express.json());
 
 dotenv.config();
 const PORT = isNaN(parseInt(process.env.PORT)) ? 3000 : parseInt(process.env.PORT); 
+
+class ContractEnum {
+    static ERC1155WRAPPER = 'ERC1155Wrapper.sol';
+    static LOCK = 'Lock.sol';
+    static NOPREGO = 'NoPrego.sol';
+    static NOPREGONFT = 'NoPregoNFT.sol';
+}
 
 //web2
 app.get('/', (req, res) => {
@@ -68,7 +73,6 @@ app.post("/artwork", async (request, response) => {
         response.status(500).json({message: error.message});
     }
 });
-
 
 const getApiKey = async () => {
     const project = await Project.findOne();
@@ -144,22 +148,13 @@ const deployImageIPFS = async (url) => {
 
 //web3
 
-
-
-const options = {
-    key: fs.readFileSync('./localhost-key.pem', 'utf8'),
-    cert: fs.readFileSync('./localhost.pem', 'utf8')
-};
-const httpsServer = https.createServer(options, app);
-
 mongoose.connect(process.env.MONGODB_URI)
 .then(() => {
     console.log("MongoDB connection success");
-    httpsServer.listen(PORT, () => {
-        console.log("Server listening at port "+PORT);
-    });
+    app.listen(PORT, function(err){
+        if (err) console.log("Error - server not listening");
+        console.log("Server listening on Port", PORT);
+    })
 }).catch(() => {
     console.log("MongoDB connection failed")
-}).catch(() => {
-    console.log("MongoDB connection failed");
 })
