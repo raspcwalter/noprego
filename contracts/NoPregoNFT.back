@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract NoPregoNFT is ERC1155, Ownable {
+contract NoPregoNFT is ERC1155 {
     uint256 private _nextTokenId = 1;
 
     // Controle de acesso
@@ -34,14 +34,14 @@ contract NoPregoNFT is ERC1155, Ownable {
     }
 
     // Adiciona permissão para mintar um NFT
-    function addMinter(address account) external onlyOwner {
+    /*function addMinter(address account) external onlyOwner {
         minters[account] = true;
     }
 
     // Remove permissão para mintar um NFT
     function removeMinter(address account) external onlyOwner {
         minters[account] = false;
-    }
+    }*/
 
     // Mint do NFT
     function mint(
@@ -108,4 +108,3 @@ contract NoPregoNFT is ERC1155, Ownable {
         ));
     }    
 }
-
