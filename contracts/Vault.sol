@@ -12,6 +12,8 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 import {IERC20} from "@openzeppelin/contracts/interfaces/IERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
+import {IERC20Permit} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
+
 //import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 //import {IERC1155Receiver} from "@openzeppelin/contracts/interfaces/IERC1155Receiver.sol";
 
@@ -163,7 +165,8 @@ constructor() Ownable(msg.sender) {
         return true;
     } */
 
-    function tomaEmprestimo(IERC20 _token, uint256 _valor) public returns (bool b) {
+    function tomaEmprestimo(IERC20 _token, uint256 _valor, 
+                uint256 _deadline, uint8 _v, bytes32 _r, bytes32 _s) public returns (bool b) {
 
         address _tomador = msg.sender;
         Emprestimo memory _emprestimo;
@@ -182,6 +185,19 @@ constructor() Ownable(msg.sender) {
         require (valorTotalEmprestado + _emprestimo.valorEmprestimo <= valorTotalDepositado, "valor depositado no cofre insuficiente");
 
         // @todo como conseguir o approval ?
+        // Aprovação usando permit
+        IERC20Permit(address(_emprestimo.tokenEmprestimo)).permit(
+            _tomador,
+            address(this),
+            _emprestimo.valorEmprestimo,
+            _deadline,
+            _v,
+            _r,
+            _s
+        );
+
+    uint256 allowance = _emprestimo.tokenEmprestimo.allowance(_tomador, address(this));
+    require(allowance >= _emprestimo.valorEmprestimo, "aprovacao de token insuficiente");
 
         uint256 initialBalance = _emprestimo.tokenEmprestimo.balanceOf(address(this));
         
