@@ -27,7 +27,7 @@ contract BRLtoUSDConverter is ChainlinkClient, ConfirmedOwner {
         
        jobId = "7d80a6386ef543a3abb52817f6707e3b"; // Job ID que retorna string Chainlink
                
-        fee = (1 * LINK_DIVISIBILITY) / 10;  // 0,1 *10 **18 (Variável de acordo com a rede e o job)
+       fee = (1 * LINK_DIVISIBILITY) / 10;  // 0,1 *10 **18 (Variável de acordo com a rede e o job)
     }
     
     //Envia a solicitação para o óraculo chainlink e retorna o ID da solicitação
