@@ -47,7 +47,12 @@ contract Vault is Ownable, Pausable, ReentrancyGuard, NFTReceiver {
     // taxa de juros (pontos percentuais)
     uint16 taxaJuros;
 
+    // percentual maximo do que pode ser emprestado
+    uint16 maxEmprestimo;  
+
+    // tem que lidar com mais de um deposito e mais de um emprestimo por investidor / tomador 
     mapping (address => Deposito) depositos;
+    mapping (address => Emprestimo) emprestimos;
 
     NoPregoNFT private nft = NoPregoNFT(0xdE498DA263F00DC362Ba20BE9621d967E719AEd7);
 
@@ -64,16 +69,24 @@ contract Vault is Ownable, Pausable, ReentrancyGuard, NFTReceiver {
         uint segundo;
     }
 
+    // @todo unificar deposito / emprestimo em transacao 
     struct Deposito {
         IERC20 tokenDeposito;
         uint256 valorDeposito;
         DateTime dataDeposito;
     }
 
-constructor() Ownable(msg.sender) {
-    // maturidade = block.timestamp;
-    setTokenAceito(USDC);
+    struct Emprestimo {
+        IERC20 tokenEmprestimo;
+        uint256 valorEmprestimo;
+        DateTime dataEmprestimo;
+    }
 
+    uint16 private constant HUNDRED_PERCENT = 10000;
+
+constructor() Ownable(msg.sender) {
+    setTokenAceito(USDC);
+    maxEmprestimo = 8000;
 }
 
 /*constructor(
@@ -115,6 +128,15 @@ constructor() Ownable(msg.sender) {
         tokenAceito = _a;
     }
 
+    function getNFTAceito() public view returns (NoPregoNFT n) {
+        return nft;
+    }
+
+    function setNFTAceito(NoPregoNFT _nft) public onlyOwner {
+        nft = _nft;
+    }
+
+
     function getValorTotalDepositado() public view returns (uint256 v) {
         return valorTotalDepositado;
     }
@@ -126,10 +148,67 @@ constructor() Ownable(msg.sender) {
         return true;
     }
 
+    function _incValorTotalEmprestado(IERC20 _t, uint256 _v) private returns (bool status) {
+        require(_t == tokenAceito, "token invalido");
+        
+        // @todo deveria levar reservas em conta 
+        require(valorTotalEmprestado + _v <= valorTotalDepositado, "valor depositado no cofre insuficiente");
+        
+        valorTotalEmprestado += _v;
+        return true;
+    }
+
     /* function aprovaDeposito(uint256 _valor) public returns (bool status){
         require(tokenAceito.approve(address(this), _valor), "deposito nao aprovado");
         return true;
     } */
+
+    function tomaEmprestimo(IERC20 _token, uint256 _valor) public returns (bool b) {
+
+        address _tomador = msg.sender;
+        Emprestimo memory _emprestimo;
+        _emprestimo.tokenEmprestimo = _token;
+        _emprestimo.valorEmprestimo = _valor;
+
+        require(!isVencido(), "prazo de vencimento do cofre vencido");
+        require(_emprestimo.tokenEmprestimo == getTokenAceito(), "token invalido");
+        require(_emprestimo.valorEmprestimo > 0, "quantidade emprestada inferior a zero");
+
+        // @todo limitar a parte das garantias
+        uint256 _limiteEmprestimo = garantias[_tomador]; // maxEmprestimo / HUNDRED_PERCENT * garantias[_tomador]; 
+        require(_limiteEmprestimo >= _emprestimo.valorEmprestimo, "garantias insuficientes");
+
+        // garante que haja recursos suficientes no cofre 
+        require (valorTotalEmprestado + _emprestimo.valorEmprestimo <= valorTotalDepositado, "valor depositado no cofre insuficiente");
+
+        // @todo como conseguir o approval ?
+
+        uint256 initialBalance = _emprestimo.tokenEmprestimo.balanceOf(address(this));
+        
+        // transferir tokens do investidor para o contrato
+
+        SafeERC20.safeTransferFrom(_emprestimo.tokenEmprestimo, address(this), _tomador, _emprestimo.valorEmprestimo); 
+        uint256 finalBalance = _emprestimo.tokenEmprestimo.balanceOf(address(this));
+        require(finalBalance == initialBalance - _emprestimo.valorEmprestimo, "Saldo final nao corresponde ao esperado");
+
+        (uint y, uint mes, uint d, uint h, uint min, uint s) = BokkyPooBahsDateTimeLibrary.timestampToDateTime(block.timestamp);
+        _emprestimo.dataEmprestimo.ano = y;
+        _emprestimo.dataEmprestimo.mes = mes;
+        _emprestimo.dataEmprestimo.dia = d;
+        _emprestimo.dataEmprestimo.hora = h;
+        _emprestimo.dataEmprestimo.minuto = min;
+        _emprestimo.dataEmprestimo.segundo = s;
+         
+        // @todo lidar com tomador que jah tinha emprestado do cofre 
+        // solucao poderia ser trazer emprestimo inicial a valor presente (com juros) 
+        // e adicionar os dois depositos na data do deposito adicional
+        // problema: cada emprestimo estah relacionado a um colateral 
+        emprestimos[_tomador] = _emprestimo;
+        
+        require(_incValorTotalEmprestado(_emprestimo.tokenEmprestimo, _emprestimo.valorEmprestimo), "deposito mal sucedido");
+        
+        return true;
+    }
 
     function depositaNoCofre(IERC20 _token, uint256 _valor) public returns (bool status) {
         address _investidor = msg.sender;
@@ -169,7 +248,7 @@ constructor() Ownable(msg.sender) {
         return true;
     }
 
-    function depositaColateral(NoPregoNFT _nft, uint256 _tokenid) public returns (bool b) {
+    function _depositaColateral(NoPregoNFT _nft, uint256 _tokenid) private returns (bool b) {
         address _tomador = msg.sender;
 
         // @todo verificar KYC
@@ -188,9 +267,8 @@ constructor() Ownable(msg.sender) {
     }
 
     function depositaColateral(uint256 _tokenid) public returns (bool b) {
-        return depositaColateral(nft, _tokenid);
+        return _depositaColateral(nft, _tokenid);
     }
-
 
     function setDataVencimento(uint _ano, uint _mes, uint _dia) public onlyOwner {
         require(BokkyPooBahsDateTimeLibrary.isValidDate(_ano, _mes, _dia), "data invalida!");
