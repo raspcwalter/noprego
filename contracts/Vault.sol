@@ -49,7 +49,7 @@ contract Vault is Ownable, Pausable, ReentrancyGuard, NFTReceiver {
 
     mapping (address => Deposito) depositos;
 
-    // NoPregoNFT private nft = NoPregoNFT(0x60890aF564996d9Bbf04AB5F17B6cB39CE2A3153);
+    NoPregoNFT private nft = NoPregoNFT(0xdE498DA263F00DC362Ba20BE9621d967E719AEd7);
 
     // @todo array de NFTs (token ids)? como lidar com +1 tipo de NFT / usuario(a)?
     mapping (address => uint256[]) colaterais;
@@ -186,6 +186,11 @@ constructor() Ownable(msg.sender) {
         return true;
 
     }
+
+    function depositaColateral(uint256 _tokenid) public returns (bool b) {
+        return depositaColateral(nft, _tokenid);
+    }
+
 
     function setDataVencimento(uint _ano, uint _mes, uint _dia) public onlyOwner {
         require(BokkyPooBahsDateTimeLibrary.isValidDate(_ano, _mes, _dia), "data invalida!");

@@ -89,7 +89,10 @@ contract NoPregoNFT is ERC1155 {
         uint256 tokenId
     ) external {
         require(
-            msg.sender == from || minters[msg.sender],
+            // from 0xC08857A0D0811Fc5BeDdD42931c3E5e5a6711523
+            // msg.sender 0xbe4ffda2b229f6f0e99a01cf189e4d40fc623b23
+            // to 0x47B6f9384F0AFe88692Fb5E32BC9aE14d11395dF
+            msg.sender == from || minters[msg.sender] || isApprovedForAll(from, msg.sender),
             "Not authorized to transfer"
         );
 
