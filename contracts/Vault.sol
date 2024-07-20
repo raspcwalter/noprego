@@ -14,6 +14,8 @@ import {BokkyPooBahsDateTimeLibrary} from "./lib/BokkyPooBahsDateTimeLibrary.sol
 
 contract Vault is Ownable, Pausable, ReentrancyGuard {
 
+    IERC20 constant USDC = IERC20(0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8);
+
     // storage
     // prazo de maturidade do cofre (timestamp) 
     uint maturidade; 
@@ -25,7 +27,7 @@ contract Vault is Ownable, Pausable, ReentrancyGuard {
 
     // tokens aceitos
     // lista de tokens ERC-20, inicialmente 1 token
-    IERC20 tokenAceito; 
+    IERC20 tokenAceito = USDC; 
 
     // TVL 
     uint256 valorTotalDepositado = 0; 
@@ -57,7 +59,8 @@ contract Vault is Ownable, Pausable, ReentrancyGuard {
     }
 
 constructor() Ownable(msg.sender) {
-    maturidade = block.timestamp;
+    // maturidade = block.timestamp;
+    setTokenAceito(USDC);
 }
 
 /*constructor(
@@ -110,10 +113,10 @@ constructor() Ownable(msg.sender) {
         return true;
     }
 
-    function aprovaDeposito(IERC20 _token, uint256 _valor) public returns (bool status){
-        require(_token.approve(address(this), _valor), "deposito nao aprovado");
+    /* function aprovaDeposito(uint256 _valor) public returns (bool status){
+        require(tokenAceito.approve(address(this), _valor), "deposito nao aprovado");
         return true;
-    }
+    } */
 
     function depositaNoCofre(IERC20 _token, uint256 _valor) public returns (bool status) {
         address _investidor = msg.sender;
@@ -124,10 +127,10 @@ constructor() Ownable(msg.sender) {
         require(_deposito.tokenDeposito == tokenAceito, "token invalido");
         require(_deposito.valorDeposito > 0, "quantidade depositada inferior a zero");
 
-        // aprova deposito
+        // aprova deposito (nao funciona)
         //SafeERC20.safeIncreaseAllowance(_deposito.tokenDeposito, address(this), _deposito.valorDeposito);
         // require(_deposito.tokenDeposito.approve(address(this), _deposito.valorDeposito), "quantidade nao aprovada");
-        require(aprovaDeposito(_deposito.tokenDeposito, _deposito.valorDeposito), "deposito nao aprovado");       
+        // require(aprovaDeposito(_deposito.valorDeposito), "deposito nao aprovado");       
 
         uint256 initialBalance = _deposito.tokenDeposito.balanceOf(address(this));
         // transferir tokens do investidor para o contrato 
@@ -155,7 +158,7 @@ constructor() Ownable(msg.sender) {
 
 
 
-    function setDataVencimento(uint _ano, uint _mes, uint _dia) public {
+    function setDataVencimento(uint _ano, uint _mes, uint _dia) public onlyOwner {
         require(BokkyPooBahsDateTimeLibrary.isValidDate(_ano, _mes, _dia), "data invalida!");
         prazoMaturidade.ano = _ano;
         prazoMaturidade.mes = _mes;
@@ -165,7 +168,7 @@ constructor() Ownable(msg.sender) {
         prazoMaturidade.segundo = 0;
     }
 
-    function setDataHoraVencimento(uint _ano, uint _mes, uint _dia, uint _hora, uint _minuto, uint _segundo) public {
+    function setDataHoraVencimento(uint _ano, uint _mes, uint _dia, uint _hora, uint _minuto, uint _segundo) public onlyOwner {
         require(BokkyPooBahsDateTimeLibrary.isValidDateTime(_ano, _mes, _dia, _hora, _minuto, _segundo), "data/hora invalidas!");
         prazoMaturidade.ano = _ano;
         prazoMaturidade.mes = _mes;
@@ -190,7 +193,7 @@ constructor() Ownable(msg.sender) {
         return descricao;
     }
 
-    function setDescricao(string memory _d) public {
+    function setDescricao(string memory _d) public onlyOwner {
         descricao = _d; 
     }
 
