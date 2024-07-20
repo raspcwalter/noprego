@@ -51,9 +51,4 @@ contract BRLtoUSDConverter is ChainlinkClient, ConfirmedOwner {
        rate = _rate;
        emit RequestLowPriceFulfilled(_requestId, _rate);
     }
- 
-    //Retorna a taxa de câmbio BRL/USD
-    function getRate() public view returns (string memory) {
-         return rate;
-    }
 }
