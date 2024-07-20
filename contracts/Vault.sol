@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
+import {NoPregoNFT} from "./NoPregoNFT.sol";
+import {NFTReceiver} from "./utils/NFTReceiver.sol";
+
 // Open Zeppelin
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
@@ -9,10 +12,13 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 import {IERC20} from "@openzeppelin/contracts/interfaces/IERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
+//import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
+//import {IERC1155Receiver} from "@openzeppelin/contracts/interfaces/IERC1155Receiver.sol";
+
 // BokkyPooBah
 import {BokkyPooBahsDateTimeLibrary} from "./lib/BokkyPooBahsDateTimeLibrary.sol";
 
-contract Vault is Ownable, Pausable, ReentrancyGuard {
+contract Vault is Ownable, Pausable, ReentrancyGuard, NFTReceiver {
 
     IERC20 constant USDC = IERC20(0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8);
 
@@ -43,6 +49,12 @@ contract Vault is Ownable, Pausable, ReentrancyGuard {
 
     mapping (address => Deposito) depositos;
 
+    // NoPregoNFT private nft = NoPregoNFT(0x60890aF564996d9Bbf04AB5F17B6cB39CE2A3153);
+
+    // @todo array de NFTs (token ids)? como lidar com +1 tipo de NFT / usuario(a)?
+    mapping (address => uint256[]) colaterais;
+    mapping (address => uint256) garantias;
+
     struct DateTime {
         uint ano; 
         uint mes; 
@@ -61,6 +73,7 @@ contract Vault is Ownable, Pausable, ReentrancyGuard {
 constructor() Ownable(msg.sender) {
     // maturidade = block.timestamp;
     setTokenAceito(USDC);
+
 }
 
 /*constructor(
@@ -156,7 +169,23 @@ constructor() Ownable(msg.sender) {
         return true;
     }
 
+    function depositaColateral(NoPregoNFT _nft, uint256 _tokenid) public returns (bool b) {
+        address _tomador = msg.sender;
 
+        // @todo verificar KYC
+        // deveria ter lista de usuario(a)s na NoPrego 
+
+        colaterais[_tomador].push(_tokenid);
+
+        // verifica valor da avaliacao
+        garantias[_tomador] += _nft.getAvaliacao(_tokenid); 
+
+        // @todo deveria transferir o NFT para o cofre
+        _nft.transfer(_tomador, address(this), _tokenid); 
+
+        return true;
+
+    }
 
     function setDataVencimento(uint _ano, uint _mes, uint _dia) public onlyOwner {
         require(BokkyPooBahsDateTimeLibrary.isValidDate(_ano, _mes, _dia), "data invalida!");
@@ -195,6 +224,14 @@ constructor() Ownable(msg.sender) {
 
     function setDescricao(string memory _d) public onlyOwner {
         descricao = _d; 
+    }
+
+    function getColaterais(address _tomador) public view returns (uint256[] memory nfts) {
+        return colaterais[_tomador];
+    }
+
+    function getGarantias(address _tomador) public view returns (uint256 g) {
+        return garantias[_tomador];
     }
 
 }

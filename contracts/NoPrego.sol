@@ -22,6 +22,9 @@ contract NoPrego is Ownable, Pausable, ReentrancyGuard, INftfiHub {
     // STORAGE
     mapping(bytes32 => address) private contracts;
 
+    // usuario(a)s
+    // qual eh a melhor estrutura?
+    
     // EVENTS
     
     /**

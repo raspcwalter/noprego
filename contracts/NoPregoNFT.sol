@@ -2,7 +2,7 @@
 pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+// import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract NoPregoNFT is ERC1155 {
     uint256 private _nextTokenId = 1;
@@ -19,6 +19,11 @@ contract NoPregoNFT is ERC1155 {
     }
 
     mapping(uint256 => TokenMetadata) private tokenMetadata;
+
+    // avaliacao dos NFTs.
+    // @todo deveria ter lista de avaliadores  
+    // @todo emitir sinal de avaliacao?
+    mapping(uint256 => uint256) private tokenAvaliacao;
 
     event Minted(address indexed account, uint256 indexed tokenId);
     event Burned(address indexed account, uint256 indexed tokenId);
@@ -53,7 +58,7 @@ contract NoPregoNFT is ERC1155 {
     ) external onlyMinter returns (uint256) {
         
         uint256 newTokenId = _nextTokenId;
-       _nextTokenId++;
+        _nextTokenId++;
 
         _mint(to, newTokenId, 1, "");
 
@@ -106,5 +111,15 @@ contract NoPregoNFT is ERC1155 {
             metadata.properties,
            '"}'
         ));
+    }
+
+    function avaliar(uint256 _tokenId, uint256 _valor) public {
+        // @todo testar lista de avaliadores 
+        tokenAvaliacao[_tokenId] = _valor;
+    }
+
+    function getAvaliacao(uint256 tokenId) public view returns (uint256 v) {
+        // @todo como tratar avaliacao de NFT inexistente? deveria emitir um erro. 
+        return tokenAvaliacao[tokenId];
     }    
 }

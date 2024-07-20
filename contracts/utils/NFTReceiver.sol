@@ -40,7 +40,8 @@ abstract contract NFTReceiver is IERC1155Receiver { // }, ERC721Holder {
         uint256[] calldata,
         bytes calldata
     ) external virtual override returns (bytes4) {
-        revert("ERC1155 batch not supported");
+//        revert("ERC1155 batch not supported");
+        return this.onERC1155BatchReceived.selector;
     }
 
     /**
