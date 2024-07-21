@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-// NFTfi 
-import {ContractKeys} from "./utils/ContractKeys.sol"; 
-import {INftfiHub} from "./interfaces/INftfiHub.sol";
+import {Vault} from "./Vault.sol";
 
 // Open Zeppelin
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
@@ -17,92 +15,53 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
  * 
  */
 
-contract NoPrego is Ownable, Pausable, ReentrancyGuard, INftfiHub {
+contract NoPrego is Ownable, Pausable, ReentrancyGuard {
 
     // STORAGE
-    mapping(bytes32 => address) private contracts;
+    // mapping(bytes32 => address) private contracts;
 
     // usuario(a)s
     // qual eh a melhor estrutura?
     
+    // cofres 
+    Vault[] public cofres; 
+
     // EVENTS
     
-    /**
-     * @notice This event is fired whenever the admin registers a contract.
-     *
-     * @param contractKey - Contract key e.g. bytes32('PERMITTED_NFTS').
-     * @param contractAddress - Address of the contract.
-     */
-    event ContractUpdated(bytes32 indexed contractKey, address indexed contractAddress);
-
     // CONSTRUCTOR
     /**
-     * @dev Initializes `contracts` with a batch of permitted contracts
+     * @dev construtor do contrato principal (que detem os cofres)
      *
-     * @param _admin - Initial admin of this contract.
-     * @param _contractKeys - Initial contract keys.
-     * @param _contractAddresses - Initial associated contract addresses.
      */
-    constructor(
-        address _admin,
-        string[] memory _contractKeys,
-        address[] memory _contractAddresses
-    ) Ownable(_admin) {
-        _setContracts(_contractKeys, _contractAddresses);
+    constructor() Ownable(msg.sender) {
+        _criaCofres();
     }
 
-    // FUNCTIONS
-    // funções para gestão dos contratos aceitos 
+    function _criaCofres() private {
+        Vault a = new Vault();
+        a.setDataVencimento(2024,10,5);
+        a.setDescricao("5OUT24 1%");
+        a.setTaxas(100, 200);
+        cofres.push(a);
 
-        /**
-     * @notice Set or update the contract address for the given key.
-     * @param _contractKey - New or existing contract key.
-     * @param _contractAddress - The associated contract address.
-     */
-    function setContract(string calldata _contractKey, address _contractAddress) external onlyOwner {
-        _setContract(_contractKey, _contractAddress);
-    }
+        Vault b = new Vault();
+        b.setDataVencimento(2024,12,5);
+        b.setDescricao("5DEZ24 2%");
+        b.setTaxas(200, 300);
+        cofres.push(b);
 
-    /**
-     * @notice Set or update the contract addresses for the given keys.
-     * @param _contractKeys - New or existing contract keys.
-     * @param _contractAddresses - The associated contract addresses.
-     */
-    function setContracts(string[] memory _contractKeys, address[] memory _contractAddresses) external onlyOwner {
-        _setContracts(_contractKeys, _contractAddresses);
-    }
+        Vault c = new Vault();
+        c.setDataVencimento(2025,2,5);
+        c.setDescricao("5FEV25 3%");
+        c.setTaxas(300, 400);
+        cofres.push(c);
 
-    /**
-     * @notice This function can be called by anyone to lookup the contract address associated with the key.
-     * @param  _contractKey - The index to the contract address.
-     */
-    function getContract(bytes32 _contractKey) external view returns (address) {
-        return contracts[_contractKey];
-    }
+        Vault d = new Vault();
+        d.setDataVencimento(2025,4,5);
+        d.setDescricao("5ABR25 4%");
+        d.setTaxas(400, 500);
+        cofres.push(d);
 
-    /**
-     * @notice Set or update the contract address for the given key.
-     * @param _contractKey - New or existing contract key.
-     * @param _contractAddress - The associated contract address.
-     */
-    function _setContract(string memory _contractKey, address _contractAddress) internal {
-        bytes32 key = ContractKeys.getIdFromStringKey(_contractKey);
-        contracts[key] = _contractAddress;
-
-        emit ContractUpdated(key, _contractAddress);
-    }
-
-    /**
-     * @notice Set or update the contract addresses for the given keys.
-     * @param _contractKeys - New or existing contract key.
-     * @param _contractAddresses - The associated contract address.
-     */
-    function _setContracts(string[] memory _contractKeys, address[] memory _contractAddresses) internal {
-        require(_contractKeys.length == _contractAddresses.length, "setContracts function information arity mismatch");
-
-        for (uint256 i; i < _contractKeys.length; ++i) {
-            _setContract(_contractKeys[i], _contractAddresses[i]);
-        }
     }
 
 }
