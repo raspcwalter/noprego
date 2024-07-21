@@ -28,12 +28,12 @@ import { CpfModalComponent } from './pages/first-access/cpf-modal/cpf-modal.comp
 import { BirthDateComponent } from './pages/first-access/birth-date/birth-date.component';
 import { AddressModalComponent } from './pages/first-access/address-modal/address-modal.component';
 import { PhoneModalComponent } from './pages/first-access/phone-modal/phone-modal.component';
-import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { SearchCountryField } from 'ngx-intl-tel-input';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+
 import { TermsModalComponent } from './pages/first-access/terms-modal/terms-modal.component';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -70,7 +70,6 @@ import { HttpClientModule } from '@angular/common/http';
     MatIconModule,
     AngularFireAuthModule,
     FormsModule,
-    NgxIntlTelInputModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -84,6 +83,7 @@ import { HttpClientModule } from '@angular/common/http';
       appId: '1:394102833164:web:0dfd354aa2369b9baf2e29',
       measurementId: 'G-8H2GH03S47',
     }),
+
   ],
   providers: [],
   bootstrap: [AppComponent],

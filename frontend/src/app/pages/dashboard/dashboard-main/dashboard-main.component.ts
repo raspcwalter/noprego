@@ -31,8 +31,4 @@ export class DashboardMainComponent {
   handleIsPayLoan(event: boolean){
     this.isPayLoan = event;
   }
-
-  redirectObjectTypeform(){
-    window.location.href = 'https://g7v0scf2v0s.typeform.com/to/eclE5bGB';
-  }
 }

@@ -14,37 +14,45 @@ export class AuthService {
     const provider = new firebase.auth.GoogleAuthProvider();
     try {
       const credential = await this.afAuth.signInWithPopup(provider);
+      const email = credential.user?.email;
+      if(email){
+        localStorage.setItem("email", email);
+      }
+      
+      console.log('User signed in: ', email);
       if(!credential.additionalUserInfo?.isNewUser){
-        const address =  await this.isNoPregoUser(credential.user?.email);
+        const address = await this.isNoPregoUser(email)
+        console.log('address:'+address);
+
         if (address) {
           this.route.navigate(['/dashboard'])
         } else {
-          window.location.href = 'https://g7v0scf2v0s.typeform.com/to/WFJHQOvh#email='+credential.user?.email;
+          window.location.href = 'https://g7v0scf2v0s.typeform.com/to/WFJHQOvh#email='+email
         }
         return;
-      }      
-      console.log('User signed in: ', credential.additionalUserInfo);
+      }
     } catch (error) {
       console.error('Error during sign in: ', error);
     }
   }
 
-  async isNoPregoUser(gmail:any) {
-    try {
-      const response = await fetch('https://noprego-api-test.onrender.com/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: gmail }),
-      });
-      const data = await response.json();
-      return data.address;
-    } catch (error) {
-      console.error('Error checking email in database: ', error);
-      return false; 
-    }
+async isNoPregoUser(gmail:any) {
+  try {
+    const response = await fetch('https://noprego-api-test.onrender.com/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: gmail }),
+    });
+    const data = await response.json();
+    return data.address;
+  } catch (error) {
+    console.error('Error:  ', error);
+    return false; 
   }
+}
+
 
   async signOut() {
     try {
