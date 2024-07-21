@@ -16,7 +16,7 @@ contract BRLtoUSDConverter is ChainlinkClient, ConfirmedOwner {
     bytes32 private jobId;
     uint256 private fee;
 
-    event RequestLowPriceFulfilled(bytes32 indexed requestId, string rate);
+    event RequestRate(bytes32 indexed requestId, string rate);
     
     constructor() ConfirmedOwner(msg.sender) {
 
@@ -39,9 +39,24 @@ contract BRLtoUSDConverter is ChainlinkClient, ConfirmedOwner {
             this.fulfill.selector
         );
 
+        /* {
+                "BRLUSD": {
+                    "code": "BRL",
+                    "codein": "USD",
+                    "name": "Real Brasileiro/Dólar Americano",
+                    "high": "0.1809",
+                    "low": "0.1783",
+                    "varBid": "-0.0015",
+                    "pctChange": "-0.83",
+                    "bid": "0.1786",
+                    "ask": "0.1787",
+                    "timestamp": "1721422776",
+                    "create_date": "2024-07-19 17:59:36"
+                }
+            }*/
+
         request._add("get", "https://economia.awesomeapi.com.br/last/BRL-USD");
         request._add("path", "BRLUSD,bid");
-        //request._add("path", "BRLUSD.bid");
         
         return _sendChainlinkRequest(request, fee);
     }
@@ -49,6 +64,6 @@ contract BRLtoUSDConverter is ChainlinkClient, ConfirmedOwner {
     //Processa a resposta do óraculo
     function fulfill(bytes32 _requestId, string memory _rate) public recordChainlinkFulfillment(_requestId) {
        rate = _rate;
-       emit RequestLowPriceFulfilled(_requestId, _rate);
+       emit RequestRate(_requestId, _rate);
     }
 }
