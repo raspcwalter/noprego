@@ -1,0 +1,44 @@
+<div class="container d-flex flex-column">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h1 class="dashboard-title">Depositar</h1>
+      <a class="btn button close-button" (click)="closeModal()"><mat-icon class="close">close</mat-icon></a
+      >
+    </div>
+    <div class="max-limit mt-3">
+      <table>
+        <thead class="mb-3">
+          <tr>
+            <th class="title-sections">Cofre</th>
+            <th class="title-sections">Ativo do cofre</th>
+            <th class="title-sections">Taxa</th>
+            <th class="title-sections">Prazo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="font-medium">Cofre 001</td>
+            <td class="">
+              <div class="d-flex align-items-center">
+                <img src="assets\img\tether.svg" alt="Ativo" class="active-img" />
+                <p class="mt-3 font-medium">USDT</p>
+              </div>
+            </td>
+            <td class="font-medium">1%</td>
+            <td class="font-medium">05/10/24</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="payment-value mt-4">
+      <p class="title-sections font-medium" style="color: #34A853;">Valor do depósito</p>
+      <hr />
+      <input
+        type="number"
+        placeholder="USD"
+        class="d-flex justify-content-between"
+        [(ngModel)]="value"
+      />
+    </div>
+    <button class="button btn text-white mt-3">Depositar</button>
+  </div>
+  

@@ -1,0 +1,12 @@
+<section
+  class="container-fluid d-flex flex-column align-items-center justify-content-center"
+>
+  <div class="content">
+    <p class="mb-4"><img src="assets\img\arrow-right.svg" alt="" />CPF*</p>
+    <p class="mb-5 color-gray">Use apenas números, sem "." ou "-"</p>
+    <form action="" class="mb-2">
+      <input type="number" placeholder="Responde aqui..." [(ngModel)]="userCpf" name="userCpf"/>
+    </form>
+    <button class="btn button mt-3" (click)="submitCpf()">OK</button>
+  </div>
+</section>

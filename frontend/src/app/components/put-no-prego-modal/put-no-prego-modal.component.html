@@ -1,0 +1,67 @@
+<div class="container d-flex flex-column">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h1 class="dashboard-title">Pôr uma obra no prego</h1>
+        <a class="btn button close-button" (click)="handleIsPutProject()"><mat-icon class="close">close</mat-icon></a>
+    </div>
+    <div class="project">
+        <p class="title-sections">Obra</p>
+        <hr>
+        <div class="project-div d-flex">
+            <img src="assets\img\obra1-test.png" alt="">
+            <div class="infos">
+                <h1 class="project-title">Desenho da minha sobrinha Maria Isadora</h1>
+                <div class="d-flex justify-content-between">
+                    <p class="title-sections">Artista:</p>
+                    <p class="text-black">Maria Isadora</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="title-sections">Ano:</p>
+                    <p class="text-black">2021</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="title-sections">Dimensões (cm):</p>
+                    <p class="text-black">29,7 x 21 (A4)</p>
+                </div>
+            </div>
+        </div>
+        <div class="project-value mt-3">
+            <p class="title-sections">Valor da obra (VO)</p>
+            <hr>
+            <form action="">
+                <input type="number" placeholder="USD" [(ngModel)]="value">
+            </form>
+        </div>
+        <div class="available-actives mt-3">
+            <p class="title-sections">Ativos disponíveis</p>
+            <hr>
+            <div class="d-flex align-items-center justify-content-between">
+                <img src="assets\img\tether.svg" alt="Ativo" class="active-img">
+                <p>USDT</p>
+                <p>7.60%</p>
+                <input type="number" placeholder="USD" [(ngModel)]="ativoValue">
+            </div>
+        </div>
+        <div class="max-limit mt-3">
+            <table>
+                <thead class="mb-3">
+                    <tr>
+                        <th class="title-sections">Limite máximo (80% VO)</th>
+                        <th class="title-sections">Total de Ativos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="title-sections">
+                            <div class="d-flex">
+                                <p>USD</p>
+                                <p class="text-black">4.00</p>
+                            </div>
+                        </td>
+                        <td class="">2.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <button class="button btn text-white mt-3" (click)="putNoPrego()">Pôr no prego!</button>
+</div>

@@ -1,0 +1,52 @@
+<div class="container d-flex flex-column">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h1 class="dashboard-title">Pagar empréstimo</h1>
+      <a class="btn button close-button" (click)="handleIsPayLoan()"
+        ><mat-icon class="close">close</mat-icon></a
+      >
+    </div>
+    <div class="max-limit mt-3">
+      <table>
+        <thead class="mb-3">
+          <tr>
+            <th class="title-sections">Cofre</th>
+            <th class="title-sections">Ativo do cofre</th>
+            <th class="title-sections">Valor devido (USD)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="font-medium">Cofre 001</td>
+            <td class="">
+              <div class="d-flex align-items-center">
+                <img src="assets\img\tether.svg" alt="Ativo" class="active-img" />
+                <p class="mt-3 font-medium">USDT</p>
+              </div>
+            </td>
+            <td style="color: #FF0000;" class="font-medium">7.500</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="payment-value mt-4">
+      <p class="title-sections font-medium" style="color: #6E58F5;">Valor do pagamento</p>
+      <hr />
+      <input
+        type="number"
+        placeholder="USD"
+        class="d-flex justify-content-between"
+        [(ngModel)]="value"
+      />
+    </div>
+  
+    <div class="amount mt-4">
+      <p class="title-sections">Saldo restante do empréstimo a pagar</p>
+      <hr />
+      <div class="d-flex">
+        <p class="title-sections">USD</p>
+        <p class="value">0.00</p>
+      </div>
+    </div>
+    <button class="button btn text-white mt-3" (click)="payLoan()">Pagar empréstimo</button>
+  </div>
+  

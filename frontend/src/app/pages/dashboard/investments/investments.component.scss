@@ -1,0 +1,65 @@
+.container-fluid {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 30px;
+    min-height: 70vh !important;
+    position: relative;
+    .cards-container {
+      overflow-x: auto;
+      width: 100%;
+      margin-top: -40px;
+      padding: 0 150px;
+      @media (max-width: 900px) {
+        // background-color: red;
+        width: 100%;
+        padding: 0 !important;
+        justify-content: center !important;
+        margin: -40px auto 0 auto;
+      }
+      .cards {
+        gap: 30px;
+  
+        flex-wrap: wrap;
+        width: 100%;
+        // background-color: red;
+      }
+    }
+  
+    .title {
+      background-color: #000;
+      width: 100%;
+      border: none;
+      // height: 200px;
+      padding: 60px 150px;
+      @media (max-width: 900px) {
+        padding: 60px 20px;
+      }
+      .dashboard-title {
+        font-size: 60px;
+        font-weight: 600;
+
+        @media (max-width: 900px) {
+          font-size: 40px !important;
+          line-height: 50px;
+        }
+      }
+    }
+    .container-deposit {
+      background-color: #00000061;
+      width: 100%;
+      min-height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      .deposit-card {
+        width: 30% !important;
+        height: 480px;
+        background-color: #fff;
+        border-radius: 10px;
+        @media (max-width: 900px) {
+          width: 90% !important;
+        }
+      }
+    }
+  }
+  

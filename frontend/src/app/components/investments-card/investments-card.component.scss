@@ -1,0 +1,72 @@
+.container-card {
+    min-width: 100%;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.16);
+    background-color: #fff;
+    overflow-x: auto;
+    table {
+      width: 100%;
+      // background-color: #fff;
+      border-collapse: collapse;
+      @media (max-width: 900px) {
+          th, td{
+              padding: 10px;
+          }
+      }
+      th {
+        font-size: 14px;
+        color: #a9a9a9;
+        font-weight: 500;
+      }
+      td {
+        font-size: 16px;
+        color: #000;
+        font-weight: 500;
+      }
+      tr {
+        height: 100px;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+      }
+      button {
+        border-radius: 6px;
+      }
+      .deposit {
+          background: #34a853;
+          color: #FFF;
+          padding: 10px;
+          font-weight: 600;
+          &:hover{
+              background: #4fe677;
+          }
+      }
+      .withdraw{
+          margin-left: 10px;
+          background: #D9D9D9;
+          padding: 10px;
+          color: #777777;
+          font-weight: 600;
+          &:hover{
+              background: #aeaeae;
+          }
+      }
+    }
+    .investments{
+      // background-color: red;
+      margin-top: 40px;
+      h2, h3{
+          font-size: 18px;
+      }
+      gap: 219px;
+
+      @media (max-width: 900px) {
+        gap: 50px;
+      }
+    }
+  }
+  
+  .font-bold {
+    font-weight: 700 !important;
+  }
+  

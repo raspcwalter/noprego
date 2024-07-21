@@ -1,0 +1,16 @@
+<section class="container-fluid">
+    <div class="title d-flex align-items-center">
+      <h1 class="dashboard-title text-white">Painel de Investimentos</h1>
+    </div>
+    <div class="cards-container d-flex align-items-center justify-content-center">
+      <div class="cards">
+        <app-investments-card (isDeposit)="handleIsDeposit($event)" (isWithdraw)="handleIsWithdraw($event)"></app-investments-card>
+      </div>
+    </div>
+    <div class="container-deposit d-flex align-items-center justify-content-center" *ngIf="isDeposit">
+      <div class="deposit-card">
+        <app-deposit-modal (handleCloseModal)="handleIsDeposit($event)"></app-deposit-modal>
+      </div>
+    </div>
+  </section>
+  

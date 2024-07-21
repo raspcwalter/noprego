@@ -1,0 +1,117 @@
+.container{
+    padding: 20px;
+    @media (max-width: 900px) {
+        padding: 10px;
+        p{
+            font-size: 13px !important;
+        }
+        // overflow: scroll;
+    }
+    .close-button{
+        background-color: transparent;
+        color: #000;
+        transform: scale(1.2);
+    }
+
+    .dashboard-title{
+        font-size: 36px !important;
+        font-weight: 500 !important;
+    }
+
+    .title-sections{
+        color: #A9A9A9 !important;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .project-div{
+        gap: 24px;
+        img{
+            width: 211px;
+        }
+        .infos{
+            .project-title{
+                font-size: 24px;
+                color: #000;
+            }
+            .text-black{
+                font-weight: 500;
+            }
+        }
+    }
+
+    .project-value{
+        input{
+            width: 100%;
+            text-align: end;
+            &::placeholder{
+                text-align: start;
+            }
+        }
+    }
+
+    .available-actives{
+        .d-flex{
+            flex-wrap: wrap;
+            @media (max-width: 900px) {
+                gap: 10px;
+                align-items: center;
+                justify-content: center !important;
+            }
+           img{
+                width: 45px;
+           }
+           p{
+                margin-top: 15px;
+           }
+        }        
+    }
+
+    .max-limit{
+        table{
+            width: 100%;
+            thead{
+                border-bottom: 1px solid #EEEEEE;
+            }
+
+            tbody{
+                height: 50px;
+            }
+
+            tr,td,p{
+                font-weight: 500 !important;
+            }
+
+            .title-sections{
+                .d-flex{
+                    .text-black{
+                        color: #000 !important;
+                    }
+                    gap: 5px;
+                }
+            }
+        }
+    }
+
+    input{
+        border: 1px solid #A9A9A9;
+        border-radius: 5px;
+        background-color: #F8F8F8;
+        outline: none;
+        // height: 38px;
+        padding: 10px;
+        // width: 100%;
+    }
+
+    hr{
+        background-color: #EEEEEE;
+    }
+
+    button{
+        width: 100%;
+        background-color: #6E58F5;
+        margin: 0 auto;
+    }
+
+    
+}

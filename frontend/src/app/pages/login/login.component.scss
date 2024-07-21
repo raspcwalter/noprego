@@ -1,0 +1,67 @@
+.container-fluid{
+    margin: 0;
+    padding: 0;
+    background-image: url("../../../assets/img/hero-desktop.png");
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    .hero-container{
+        background-color: #0000007e;
+        width: 50%;
+        min-height: 100vh;
+        padding: 121px 0 0 169px;
+        @media (max-width: 1500px) {
+            padding-left: 50px;
+        }
+        @media (max-width: 900px) {
+            padding-left: 20px;
+            width: 100%;
+        }
+        .first-section{
+            gap: 31px;
+        }
+        .paragraph{
+            margin-top: 70px;
+            width: 50%;
+            @media (max-width: 1500px) {
+                width: 80%;
+            }
+        }
+        .button{
+            border-radius: 36px;
+            width: 376px;
+            height: 52px;
+            background: linear-gradient(to right, #6E58F5, #A16DFE);
+            img{
+                margin-right: 75px;
+            }
+            
+        }
+        .links{
+            a{
+                color: #7DAEFF;
+                cursor: pointer;
+            }
+            margin-top: 50px;
+            gap: 10px;
+        }
+        .logo{
+            width: 246px;
+        }
+        .title-source{
+            width: 90%;
+        }
+        .bar{
+            height: 2px;
+            width: 50%;
+            background-color: #FFF;
+            @media (max-width: 900px) {
+                width: 70%;
+            }
+        }
+
+        
+    }
+}
+
