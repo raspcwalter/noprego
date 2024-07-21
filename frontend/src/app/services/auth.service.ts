@@ -21,10 +21,9 @@ export class AuthService {
       
       console.log('User signed in: ', email);
       if(!credential.additionalUserInfo?.isNewUser){
-        const address = await this.isNoPregoUser(email)
-        console.log('address:'+address);
+        const response = await this.isNoPregoUser(email);
 
-        if (address) {
+        if (response.userdata) {
           this.route.navigate(['/dashboard'])
         } else {
           window.location.href = 'https://g7v0scf2v0s.typeform.com/to/WFJHQOvh#email='+email
