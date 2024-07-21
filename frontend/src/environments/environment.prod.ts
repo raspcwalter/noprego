@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://api.minhaapp.com/api',
+    apiUrl: 'https://noprego-api-test.onrender.com/',
 };
