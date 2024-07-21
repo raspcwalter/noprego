@@ -56,7 +56,7 @@ contract Vault is Ownable, Pausable, ReentrancyGuard, NFTReceiver {
     mapping (address => Deposito) public depositos;
     mapping (address => Emprestimo) public emprestimos;
 
-    NoPregoNFT public nft = NoPregoNFT(0xdE498DA263F00DC362Ba20BE9621d967E719AEd7);
+    NoPregoNFT public nft = NoPregoNFT(0x1f255113bc2E7ad29b050eb36CBc008063B2e3f1);
 
     // @todo array de NFTs (token ids)? como lidar com +1 tipo de NFT / usuario(a)?
     mapping (address => uint256[]) public colaterais;
@@ -208,7 +208,7 @@ constructor() Ownable(msg.sender) {
         return true;
     }
 
-    function getDivida(address _tomador) public returns (uint256 d){
+    /*function getDivida(address _tomador) public returns (uint256 d){
         Emprestimo memory _emprestimo = emprestimos[_tomador];
 
         DateTime memory _d = _emprestimo.dataEmprestimo;
@@ -224,7 +224,7 @@ constructor() Ownable(msg.sender) {
 
         return _divida; 
 
-    }
+    }*/
 
     function depositaNoCofre(IERC20 _token, uint256 _valor) public returns (bool status) {
         address _investidor = msg.sender;
