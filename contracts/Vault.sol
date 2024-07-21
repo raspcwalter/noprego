@@ -26,41 +26,41 @@ contract Vault is Ownable, Pausable, ReentrancyGuard, NFTReceiver {
 
     // storage
     // prazo de maturidade do cofre (timestamp) 
-    uint maturidade; 
+    uint256 public maturidade; 
 
-    DateTime prazoMaturidade;
+    DateTime public prazoMaturidade;
 
     // descrição do cofre
-    string descricao;
+    string public descricao;
 
     // tokens aceitos
     // lista de tokens ERC-20, inicialmente 1 token
-    IERC20 tokenAceito = USDC; 
+    IERC20 public tokenAceito = USDC; 
 
     // TVL 
-    uint256 valorTotalDepositado = 0; 
+    uint256 public valorTotalDepositado = 0; 
 
     // total de valores emprestados (tomados)
-    uint256 valorTotalEmprestado = 0;
+    uint256 public valorTotalEmprestado = 0;
 
     // taxa de remuneracao (pontos percentuais)
-    uint16 taxaRemuneracao;
+    uint16 public taxaRemuneracao;
 
     // taxa de juros (pontos percentuais)
-    uint16 taxaJuros;
+    uint16 public taxaJuros;
 
     // percentual maximo do que pode ser emprestado
-    uint16 maxEmprestimo;  
+    uint16 public maxEmprestimo;  
 
     // tem que lidar com mais de um deposito e mais de um emprestimo por investidor / tomador 
-    mapping (address => Deposito) depositos;
-    mapping (address => Emprestimo) emprestimos;
+    mapping (address => Deposito) public depositos;
+    mapping (address => Emprestimo) public emprestimos;
 
-    NoPregoNFT private nft = NoPregoNFT(0xdE498DA263F00DC362Ba20BE9621d967E719AEd7);
+    NoPregoNFT public nft = NoPregoNFT(0x1f255113bc2E7ad29b050eb36CBc008063B2e3f1);
 
     // @todo array de NFTs (token ids)? como lidar com +1 tipo de NFT / usuario(a)?
-    mapping (address => uint256[]) colaterais;
-    mapping (address => uint256) garantias;
+    mapping (address => uint256[]) public colaterais;
+    mapping (address => uint256) public garantias;
 
     struct DateTime {
         uint ano; 
@@ -84,38 +84,12 @@ contract Vault is Ownable, Pausable, ReentrancyGuard, NFTReceiver {
         DateTime dataEmprestimo;
     }
 
-    uint16 private constant HUNDRED_PERCENT = 10000;
+    uint16 public constant HUNDRED_PERCENT = 10000;
 
 constructor() Ownable(msg.sender) {
     setTokenAceito(USDC);
     maxEmprestimo = 8000;
 }
-
-/*constructor(
-        address _admin,
-        uint256 _maturidade,
-        string memory _descricao,
-        IERC20 _tokenAceito,
-        uint16 _taxaRemuneracao,
-        uint16 _taxaJuros
-    ) Ownable(_admin) {
-        maturidade = _maturidade;
-        descricao = _descricao;
-        tokenAceito = _tokenAceito;
-        taxaRemuneracao = _taxaRemuneracao;
-        taxaJuros = _taxaJuros;
-    }*/ 
-
-   /* struct Offer {
-        uint256 loanPrincipalAmount;
-        uint256 maximumRepaymentAmount;
-        uint256 nftCollateralId;
-        address nftCollateralContract;
-        uint32 loanDuration;
-        uint16 loanAdminFeeInBasisPoints;
-        address loanERC20Denomination;
-        address referrer;
-    }*/
 
     function getLoanERC20Denomination() public view returns (IERC20) {
         return tokenAceito;
@@ -138,6 +112,10 @@ constructor() Ownable(msg.sender) {
         nft = _nft;
     }
 
+    function setTaxas(uint16 _r, uint16 _j) public onlyOwner {
+        taxaRemuneracao = _r;
+        taxaJuros = _j;
+    }
 
     function getValorTotalDepositado() public view returns (uint256 v) {
         return valorTotalDepositado;
@@ -165,6 +143,10 @@ constructor() Ownable(msg.sender) {
         return true;
     } */
 
+   function getLimiteEmprestimo(address _tomador) public view returns (uint256 l) {
+    return maxEmprestimo / HUNDRED_PERCENT * garantias[_tomador];
+   }
+
     function tomaEmprestimo(IERC20 _token, uint256 _valor, 
                 uint256 _deadline, uint8 _v, bytes32 _r, bytes32 _s) public returns (bool b) {
 
@@ -178,7 +160,7 @@ constructor() Ownable(msg.sender) {
         require(_emprestimo.valorEmprestimo > 0, "quantidade emprestada inferior a zero");
 
         // @todo limitar a parte das garantias
-        uint256 _limiteEmprestimo = garantias[_tomador]; // maxEmprestimo / HUNDRED_PERCENT * garantias[_tomador]; 
+        uint256 _limiteEmprestimo = getLimiteEmprestimo(_tomador);
         require(_limiteEmprestimo >= _emprestimo.valorEmprestimo, "garantias insuficientes");
 
         // garante que haja recursos suficientes no cofre 
@@ -225,6 +207,24 @@ constructor() Ownable(msg.sender) {
         
         return true;
     }
+
+    /*function getDivida(address _tomador) public returns (uint256 d){
+        Emprestimo memory _emprestimo = emprestimos[_tomador];
+
+        DateTime memory _d = _emprestimo.dataEmprestimo;
+
+        uint _tinicio = BokkyPooBahsDateTimeLibrary.timestampFromDateTime(_d.ano, _d.mes, _d.dia, _d.hora, _d.minuto, _d.segundo);
+        uint _now = block.timestamp; 
+
+        uint _diasEmprestimo = BokkyPooBahsDateTimeLibrary.diffDays(_tinicio, _now);
+
+        // @todo lidar com float 
+        uint16 _jurosdia = ((( 1+ (taxaJuros/HUNDRED_PERCENT) ) ^ (1/30) ) -1 )*HUNDRED_PERCENT;
+        uint256 _divida = _emprestimo.valorEmprestimo * ((1+_jurosdia/HUNDRED_PERCENT)^_diasEmprestimo);
+
+        return _divida; 
+
+    }*/
 
     function depositaNoCofre(IERC20 _token, uint256 _valor) public returns (bool status) {
         address _investidor = msg.sender;

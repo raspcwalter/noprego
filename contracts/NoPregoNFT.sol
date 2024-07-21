@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 contract NoPregoNFT is ERC1155 {
     uint256 private _nextTokenId = 1;
 
+
     // Controle de acesso
     mapping(address => bool) private minters;
 
