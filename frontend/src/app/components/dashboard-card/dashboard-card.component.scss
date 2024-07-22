@@ -1,0 +1,87 @@
+.card {
+    width: 100%;
+    h1 {
+      font-size: 36px;
+      font-weight: 600 !important;
+      color: #000;
+    }
+    .table {
+      padding: 30px;
+      width: 100%;
+      overflow-x: auto;
+      @media (max-width: 900px) {
+        padding: 0;
+        padding-top: 10px;
+        padding-left: 10px;
+        // overflow: scroll;
+        // background-color: red;
+      }
+      table {
+        width: 100%;
+        // border-collapse: separate;
+        border-collapse: collapse;
+        border-spacing: 15px 20px;
+        th {
+          font-size: 14px;
+          color: #a9a9a9;
+          font-weight: 500;
+          border: none;
+        }
+        td {
+          font-size: 16px;
+          font-weight: 500;
+          border: none;
+          vertical-align: middle;
+          p {
+            font-weight: 500;
+          }
+          img {
+            width: 66px;
+            border-radius: 10px;
+            // display: none;
+          }
+        }
+        tr {
+          border-bottom: 1px solid #f4f5f7;
+        }
+        .no-prego {
+          color: #34a853 !important;
+          font-weight: 600;
+          font-size: 16px;
+          img {
+            width: 20px;
+          }
+        }
+        .put-no-prego {
+          background-color: #34a853 !important;
+          color: #fff !important;
+        }
+      }
+      .name {
+        @media (max-width: 1200px) {
+          // width: 100% !important;
+        }
+      }
+      .pay-loan {
+        border-radius: 6px;
+        background: #6e58f5;
+        padding: 16px;
+        gap: 10px;
+        border: none;
+      }
+    }
+  
+    .total {
+      background: linear-gradient(to bottom, #e4e1fd30, #ffffff);
+      // border: 2px solid #F4F5F7;
+      border-radius: 0px 0px 5px 5px;
+      width: 95%;
+      margin: 0 auto;
+      height: 100px !important;
+      p {
+        font-weight: 700;
+        margin-top: 10px;
+      }
+    }
+  }
+  

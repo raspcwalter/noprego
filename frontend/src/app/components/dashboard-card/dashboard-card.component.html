@@ -1,0 +1,55 @@
+<div class="card bg-white">
+    <div class="table" fxLayout="column" fxFlex>
+        <h1 class="mb-5">{{title}}</h1>
+    <ng-container *ngIf="isProject">
+        <table>
+            <thead>
+                <tr>
+                    <th>Obra</th>
+                    <th>Valor Obj.(USD)</th>
+                    <th>Situação</th>
+                    <th>Cofre</th>
+                    <th>Prazo</th>
+                    <th>Valor Emp.(USD)</th>
+                    <th>Rend.</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let obra of obras">
+                    <td class="d-flex align-items-center">
+                        <img src="assets\img\obra1-test.png" alt="Obra">
+                        <p class="ml-3 mt-3 name" style="width: 200px">{{obra.name}}</p>
+                    </td>
+                    <td class="mt-5">{{obra.value}}</td>
+                    <td *ngIf="obra.status" class="no-prego">
+                        No prego <span><img src="/confirmed.svg" alt=""></span>
+                    </td>
+                    <td *ngIf="!obra.status">
+                        <button class="btn button put-no-prego" (click)="handleIsPutProject()">Pôr no prego</button>
+                    </td>
+                    <td>
+                        {{obra.cofre}}
+                    </td>
+                    <td>
+                        {{obra.time}}
+                    </td>
+                    <td>
+                        {{obra.valueEmp}}
+                    </td>
+                    <td>
+                        {{obra.performance}}
+                    </td>
+                    <td>
+                        <button class="pay-loan btn button btn-regular d-flex align-items-center justify-content-center text-white" (click)="handleIsPayLoan()">Pagar empréstimo</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
+    </div>
+    <div class="d-flex pl-5 pr-5 align-items-center total justify-content-between">
+        <p>TOTAL EMPRÉSTIMOS</p>
+        <p>14.505</p>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+.container-fluid{
+    width: 100%;
+    min-height: 100vh;
+    background: #262626;
+
+    h2{
+        color: #F1ECE2;
+    }
+
+    a{
+        text-decoration: underline;
+        color: #FFF;
+    }
+
+    .first{
+        img{
+            width: 20px;
+        }
+    }
+
+    .second{
+        img{
+            width: 20px;
+        }
+    }
+
+    .allow-decline{
+        button{
+            outline: none;
+            border: 1px solid #FFF;
+            background-color: #3B3A39;
+            color: #FFF;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            width: 200px;
+            img{
+                width: 20px;
+            }
+        }
+    }
+
+    p{
+        color: #B1ADA7;
+    }
+
+    .send{
+        color: #8F7645;
+    }
+}

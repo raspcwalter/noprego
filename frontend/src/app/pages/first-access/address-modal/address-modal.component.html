@@ -1,0 +1,35 @@
+<section
+  class="container-fluid d-flex flex-column align-items-center justify-content-center"
+>
+  <div class="content">
+    <p class="mb-4"><img src="assets\img\arrow-right.svg" alt="" />Endereço*</p>
+    <p class="mb-5 color-gray">Use apenas números, sem "." ou "-"</p>
+    <form action="" class="mb-2">
+      <div class="address">
+        <label for="address">Endereço *</label>
+        <input type="text" placeholder="Avenida da Liberdade 110" [(ngModel)]="userAddress" name="userAddress"/>
+      </div>
+      <div class="address2">
+        <label for="address2">Linha de endereço 2</label>
+        <input type="text" placeholder="Apartamento 3D" [(ngModel)]="userAddress2" name="userAddress2"/>
+      </div>
+      <div class="city">
+        <label for="city">Cidade/Município *</label>
+        <input type="text" placeholder="Lisboa" [(ngModel)]="city" name="city"/>
+      </div>
+      <div class="state">
+        <label for="state">Estado/Região/Província *</label>
+        <input type="text" placeholder="Lisboa" [(ngModel)]="state" name="state"/>
+      </div>
+      <div class="cep">
+        <label for="cep">CEP/Código Postal *</label>
+        <input type="text" placeholder="1250-146" [(ngModel)]="cep" name="cep"/>
+      </div>
+      <div class="country">
+        <label for="country">País *</label>
+        <input type="text" placeholder="Portugal" [(ngModel)]="country" name="country"/>
+      </div>
+    </form>
+    <button class="btn button mt-3" (click)="submitAddress()">OK</button>
+  </div>
+</section>

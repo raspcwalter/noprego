@@ -1,0 +1,25 @@
+<section class="container-fluid d-flex align-items-center">
+    <div class="hero-container d-flex flex-column">
+      <div class="first-section d-flex flex-column">
+        <img src="assets\img\logo-noprego.png" alt="Logo Noprego" class="logo" />
+        <div class="bar"></div>
+        <h1 class="title-source text-white">Onde sua arte vale mais</h1>
+      </div>
+      <p class="paragraph text-white">
+        Use sua conta Google para acessar ou criar seu perfil na plataforma
+      </p>
+      <button
+        class="btn button d-flex align-items-center text-white"
+        (click)="signInWithGoogle()"
+      >
+        <span class="text-start"><img src="assets\img\google-svg.svg" alt="" /></span
+        >Continuar com Google
+      </button>
+      <div class="links d-flex">
+        <a routerlink="/">Termos de uso</a>
+        <span class="text-white">•</span>
+        <a routerlink="/">Política de privacidade</a>
+      </div>
+    </div>
+  </section>
+  

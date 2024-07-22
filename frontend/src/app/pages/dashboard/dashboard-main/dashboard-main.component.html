@@ -1,0 +1,22 @@
+<section class="container-fluid">
+    <div class="title d-flex align-items-center">
+      <h1 class="dashboard-title text-white">Painel de objetos</h1>
+    </div>
+    <div class="cards-container d-flex align-items-center justify-content-center">
+      <div class="cards ">
+        <app-dashboard-card title="Obras no prego" (valueIsPutProject)="handleIsPutProject($event)" [obras]="obj" (IsPayLoan)="handleIsPayLoan($event)"></app-dashboard-card>
+      </div>
+    </div>
+    <div class="put-no-prego-container d-flex align-items-center justify-content-center" *ngIf="isPutProject">
+      <div class="content">
+        <app-put-no-prego-modal (isPutProject)="handleIsPutProject($event)"></app-put-no-prego-modal>
+      </div>
+    </div>
+  
+    <div class="pay-loan d-flex align-items-center justify-content-center" *ngIf="isPayLoan">
+      <div class="content">
+        <app-pay-loan-modal (isPayLoan)="handleIsPayLoan($event)"></app-pay-loan-modal>
+      </div>
+    </div>
+  </section>
+  

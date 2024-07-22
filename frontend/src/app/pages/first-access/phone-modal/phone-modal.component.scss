@@ -1,0 +1,52 @@
+.container-fluid{
+    background: #262626;
+    width: 100%;
+    min-height: 100vh;
+    .content{
+        width: 50%;
+        margin: 0 auto;
+        // background-color: red;
+    }
+    p{
+        color: #F1ECE2;
+        font-weight: 500;
+        font-size: 20px;
+
+        img{
+            margin-right: 10px;
+        }
+    }
+
+    .color-gray{
+        color: #B4B19C;
+        font-weight: 500;
+    }
+
+    img{
+        width: 20px;
+    }
+    input{
+        border: none;
+        border-bottom: 1px solid #64625F;
+        padding: 10px;
+        outline: none;
+        background-color: transparent;
+        width: 100%;
+        font-size: 32px;
+        color: #64625F;
+        &::placeholder{
+            color: #64625F;
+            font-size: 32px;
+        }
+    }
+    button{
+        background-color: #F1ECE2;
+        font-weight: 500;
+        color: #8F7645;
+        transition: all .2s;
+        &:hover{
+            transition: all .2s;
+            transform: scale(1.1);
+        }
+    }
+}

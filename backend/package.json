@@ -1,28 +1,31 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "nodemon ./src/index.mjs",
-    "start": "node ./src/index.mjs"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "google-auth-library": "^9.11.0",
-    "jwt-decode": "^4.0.0",
-    "mongodb": "^6.8.0",
-    "mongoose": "^8.5.0",
-    "morgan": "^1.10.0"
-  },
-  "description": "",
-  "devDependencies": {
-    "nodemon": "^3.1.4"
-  },
-  "type": "module"
+    "name": "backend",
+    "version": "1.0.0",
+    "main": "./src/index.js",
+    "scripts": {
+        "start": "node ./src/index.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start:dev": "nodemon ./src/index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.20.2",
+        "connect-mongo": "^5.1.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "express-session": "^1.18.0",
+        "google-auth-library": "^9.11.0",
+        "jwt-decode": "^4.0.0",
+        "mongodb": "^6.8.0",
+        "mongoose": "^8.5.0",
+        "morgan": "^1.10.0",
+        "whatwg-url": "^14.0.0"
+    },
+    "description": "",
+    "devDependencies": {
+        "nodemon": "^3.1.4"
+    },
+    "type": "module"
 }
